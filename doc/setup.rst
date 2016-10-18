@@ -209,19 +209,33 @@ By default, :ref:`cookie` is used, but if :envvar:`PMA_USER` and
 
     The credentials you need to login are stored in the MySQL server, in case
     of Docker image there are various ways to set it (for example
-    :envvar:`MYSQL_ROOT_PASSWORD` when starting MySQL container). Please check 
+    :samp:`MYSQL_ROOT_PASSWORD` when starting MySQL container). Please check 
     documentation for `MariaDB container <https://hub.docker.com/r/_/mariadb/>`_
     or `MySQL container <https://hub.docker.com/r/_/mysql/>`_.
 
-Additionally configuration can be tweaked by :file:`/config.user.inc.php`. If
+Additionally configuration can be tweaked by :file:`/www/config.user.inc.php`. If
 this file exists, it will be loaded after configuration generated from above
 environment variables, so you can override any configuration variable. This
 configuraiton can be added as a volume when invoking docker using 
-`-v /some/local/directory/config.user.inc.php:/config.user.inc.php` parameters.
+`-v /some/local/directory/config.user.inc.php:/www/config.user.inc.php` parameters.
 
 .. seealso:: 
    
     See :ref:`config` for detailed description of configuration options.
+
+Docker Volumes
+--------------
+
+You can use following volumes to customise image behavior:
+
+:file:`/www/config.user.inc.php`
+
+    Can be used for additional settings, see previous chapter for more details.
+
+:file:`/sessions/`
+
+    Directory where PHP sessions are stored. You might want to share this 
+    for example when uswing :ref:`auth_signon`.
 
 Docker Examples
 ---------------
@@ -318,8 +332,8 @@ simple configuration may look like this:
     $i=0;
     $i++;
     $cfg['Servers'][$i]['auth_type']     = 'cookie';
-    // if you insist on "root" having no password:
-    // $cfg['Servers'][$i]['AllowNoPasswordRoot'] = true; `
+    // if you insist on "root" having no password:
+    // $cfg['Servers'][$i]['AllowNoPasswordRoot'] = true; `
     ?>
 
 Or, if you prefer to not be prompted every time you log in:
@@ -867,7 +881,7 @@ are always ways to make your installation more secure:
 * Serve phpMyAdmin on HTTPS only. Preferably, you should use HSTS as well, so that
   you're protected from protocol downgrade attacks.
 * Ensure your PHP setup follows recommendations for production sites, for example
-  `display_errors <https://php.net/manual/en/errorfunc.configuration.php#ini.display-errors>`_ 
+  `display_errors <https://secure.php.net/manual/en/errorfunc.configuration.php#ini.display-errors>`_ 
   should be disabled.
 * Remove the ``test`` directory from phpMyAdmin, unless you are developing and need test suite.
 * Remove the ``setup`` directory from phpMyAdmin, you will probably not
