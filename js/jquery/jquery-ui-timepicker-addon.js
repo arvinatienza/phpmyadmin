@@ -72,7 +72,7 @@
 			secondMin: 0,
 			millisecMin: 0,
 			microsecMin: 0,
-			hourMax: 23,
+			hourMax: 99,
 			minuteMax: 59,
 			secondMax: 59,
 			millisecMax: 999,
